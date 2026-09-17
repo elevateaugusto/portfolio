@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Augusto Castro (gutao) - Portfólio</title>
+
+<!-- Fontes do Google Fonts: JetBrains Mono pros títulos, IBM Plex Sans pro texto -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* ===========================================================
+     VARIÁVEIS DE COR — paleta "Neon Noturno", exatamente como escolhida.
+     Tudo declarado aqui pra ficar fácil de achar e trocar depois.
+  ============================================================ */
+  :root{
+    --bg: #0D0F1A;
+    --texto: #E6E8F2;
+    --primaria: #00E5FF;
+    --secundaria: #7C3AED;
+    --destaque: #FF2E88;
+
+    --fonte-titulo: 'JetBrains Mono', monospace;
+    --fonte-texto: 'IBM Plex Sans', sans-serif;
+
+    --duracao-anim: 0.6s; /* dentro da faixa 0.3s–0.8s pedida */
+  }
+
+  /* Reduz movimento pra quem pediu isso no sistema */
+  @media (prefers-reduced-motion: reduce){
+    :root{ --duracao-anim: 0s; }
+  }
+
+  *{ box-sizing: border-box; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--texto);
+    font-family: var(--fonte-texto);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, .fonte-titulo{
+    font-family: var(--fonte-titulo);
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  a{ color: var(--primaria); }
+
+  img{ max-width: 100%; display: block; }
+
+  section{ padding: 5rem 1.5rem; }
+
+  .container{
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  /* ===========================================================
+     HERO — topo centralizado com efeito de "luz" que segue o
+     mouse/toque, feito com um gradiente radial posicionado via JS.
+  ============================================================ */
+  .hero{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    padding: 3rem 1.5rem;
+    isolation: isolate; /* mantém a luz atrás do conteúdo */
+  }
+
+  .hero__luz{
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(
+      circle 320px at var(--luz-x, 50%) var(--luz-y, 30%),
+      rgba(0, 229, 255, 0.16),
+      transparent 70%
+    );
+    transition: background var(--duracao-anim) ease-out;
+  }
+
+  .avatar{
+    width: 140px;
+    height: 140px;
+    border-radius: 50%; /* formato círculo, como escolhido */
+    background: linear-gradient(160deg, var(--secundaria), var(--primaria));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--fonte-titulo);
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--bg);
+    margin-bottom: 1.5rem;
+    border: 3px solid var(--texto);
+  }
+
+  .hero h1{
+    font-size: clamp(2.2rem, 8vw, 4rem);
+    font-weight: 800;
+  }
+
+  .hero .apelido{
+    display: block;
+    font-size: clamp(1rem, 3vw, 1.3rem);
+    color: var(--primaria);
+    font-weight: 500;
+    margin-top: 0.4rem;
+  }
+
+  .hero .frase{
+    max-width: 40ch;
+    margin-top: 1.5rem;
+    font-size: 1.15rem;
+    color: var(--texto);
+  }
+
+  .badge-torcida{
+    margin-top: 1.5rem;
+    font-family: var(--fonte-titulo);
+    font-size: 0.85rem;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--secundaria);
+    color: var(--secundaria);
+  }
+
+  /* Easter egg do pinguim: escondido até clicar no nome */
+  .pinguim-easter-egg{
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--fonte-titulo);
+    font-size: 0.85rem;
+    color: var(--primaria);
+    opacity: 0;
+    transform: scale(0.6) translateY(10px);
+    height: 0;
+    overflow: hidden;
+    transition: opacity var(--duracao-anim) ease, transform var(--duracao-anim) ease;
+  }
+  .pinguim-easter-egg.visivel{
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    height: auto;
+    overflow: visible;
+  }
+
+  /* ===========================================================
+     TÍTULOS DE SEÇÃO — sem rótulo/eyebrow extra, direto ao ponto
+  ============================================================ */
+  .titulo-secao{
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    margin-bottom: 2rem;
+  }
+
+  /* ===========================================================
+     SOBRE MIM
+  ============================================================ */
+  .sobre p{
+    max-width: 65ch;
+    font-size: 1.05rem;
+  }
+  .sobre p + p{ margin-top: 1.2rem; }
+
+  /* ===========================================================
+     ENTREGAS — os cards ficam "dentro" de um computador desenhado
+     em CSS. É um carrossel: só um trabalho aparece por vez na
+     tela, e as setas trocam o slide com animação.
+  ============================================================ */
+  .computador{
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  /* Moldura do monitor */
+  .computador__monitor{
+    background: #1a1d2b;
+    border: 2px solid rgba(230, 232, 242, 0.15);
+    border-radius: 14px;
+    padding: 1rem;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  }
+
+  /* "Câmera" do monitor, só um detalhe decorativo */
+  .computador__camera{
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(230, 232, 242, 0.25);
+    margin: 0 auto 0.8rem;
+  }
+
+  /* Tela onde os trabalhos aparecem */
+  .computador__tela{
+    position: relative;
+    background: var(--bg);
+    border: 1px solid rgba(0, 229, 255, 0.25);
+    border-radius: 6px;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+  }
+
+  .computador__trilha{
+    display: flex;
+    height: 100%;
+    transition: transform var(--duracao-anim) ease;
+  }
+
+  /* Pezinho / base do monitor, feito só com bordas */
+  .computador__pescoco{
+    width: 60px;
+    height: 22px;
+    margin: 0 auto;
+    background: #1a1d2b;
+    border-left: 2px solid rgba(230, 232, 242, 0.15);
+    border-right: 2px solid rgba(230, 232, 242, 0.15);
+  }
+  .computador__base{
+    width: 160px;
+    height: 12px;
+    margin: 0 auto;
+    background: #1a1d2b;
+    border-radius: 6px;
+    border: 2px solid rgba(230, 232, 242, 0.15);
+  }
+
+  /* Setas de navegação do carrossel */
+  .computador__setas{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .seta{
+    width: 2.75rem;
+    height: 2.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--texto);
+    color: var(--texto);
+    font-family: var(--fonte-titulo);
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 var(--destaque);
+    transition: transform var(--duracao-anim) ease, box-shadow var(--duracao-anim) ease, opacity var(--duracao-anim) ease;
+  }
+  .seta:hover:not(:disabled){
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 var(--destaque);
+  }
+  .seta:disabled{
+    opacity: 0.3;
+    cursor: default;
+    box-shadow: none;
+  }
+
+  .computador__indicador{
+    text-align: center;
+    margin-top: 0.8rem;
+    font-family: var(--fonte-titulo);
+    font-size: 0.85rem;
+    color: rgba(230, 232, 242, 0.6);
+  }
+
+  .card{
+    min-width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    background: rgba(230, 232, 242, 0.06);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .card--em-breve{
+    opacity: 0.45; /* aparência apagada, como pedido */
+    pointer-events: none; /* sem link ativo */
+  }
+
+  .card__numero{
+    font-family: var(--fonte-titulo);
+    color: var(--primaria);
+    font-size: 0.9rem;
+  }
+
+  .card__titulo{
+    font-family: var(--fonte-titulo);
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+
+  .card__data{ font-size: 0.85rem; color: rgba(230,232,242,0.6); }
+
+  .card__aprendizado{ font-size: 0.95rem; flex-grow: 1; }
+
+  .card__rodape{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .selo{
+    font-family: var(--fonte-titulo);
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid currentColor;
+  }
+  .selo--concluida{ color: var(--primaria); }
+  .selo--em-breve{ color: rgba(230,232,242,0.5); }
+
+  /* ===========================================================
+     BOTÕES/LINKS — quadrado com sombra dura deslocada
+  ============================================================ */
+  .botao{
+    display: inline-block;
+    font-family: var(--fonte-titulo);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--bg);
+    background: var(--primaria);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    box-shadow: 4px 4px 0 var(--destaque);
+    transition: transform var(--duracao-anim) ease, box-shadow var(--duracao-anim) ease;
+  }
+  .botao:hover{
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--destaque);
+  }
+
+  /* ===========================================================
+     MANIFESTO — fundo na cor primária, texto invertido, com
+     uma frase de destaque grande no meio do texto.
+  ============================================================ */
+  .manifesto{
+    background: var(--primaria);
+    color: var(--bg);
+  }
+  .manifesto .titulo-secao{ color: var(--bg); }
+
+  .manifesto__texto{
+    max-width: 65ch;
+    font-size: 1.02rem;
+  }
+  .manifesto__texto p + p{ margin-top: 1.1rem; }
+
+  .manifesto__destaque{
+    font-family: var(--fonte-titulo);
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 700;
+    max-width: 24ch;
+    margin: 2.5rem auto;
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  /* ===========================================================
+     RODAPÉ
+  ============================================================ */
+  footer{
+    padding: 3rem 1.5rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: rgba(230,232,242,0.7);
+  }
+  footer a{ color: var(--secundaria); }
+
+  /* ===========================================================
+     BOTÃO "VOLTAR AO TOPO" — único elemento de navegação, fixo
+  ============================================================ */
+  .voltar-topo{
+    position: fixed;
+    right: 1.2rem;
+    bottom: 1.2rem;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--destaque);
+    color: var(--bg);
+    text-decoration: none;
+    font-family: var(--fonte-titulo);
+    box-shadow: 3px 3px 0 var(--secundaria);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--duracao-anim) ease;
+  }
+  .voltar-topo.visivel{
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* ===========================================================
+     ANIMAÇÃO DE ENTRADA AO ROLAR — alterna esquerda/direita.
+     A classe é adicionada via JS (IntersectionObserver).
+  ============================================================ */
+  .reveal{
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity var(--duracao-anim) ease, transform var(--duracao-anim) ease;
+  }
+  .reveal--direita{ transform: translateX(40px); }
+  .reveal.visivel{
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ opacity: 1; transform: none; transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===========================================================
+     HERO (TOPO)
+     Nome grande, apelido, frase e avatar circular centralizados.
+     A "luz" que segue o mouse/toque é o elemento interativo
+     principal, controlada pelo JS no final da página.
+=========================================================== -->
+<header class="hero" id="topo">
+  <div class="hero__luz" id="luz-hero"></div>
+
+  <!-- Substitua esta div por uma <img> com a sua foto real quando tiver -->
+  <div class="avatar" aria-hidden="true">AC</div>
+
+  <h1 id="nome-clicavel" style="cursor: pointer;" aria-label="Clique para um segredo">
+    Augusto Castro
+    <span class="apelido">conhecido como gutao</span>
+  </h1>
+
+  <p class="frase">Constância é o meu jogo, dentro e fora da tela.</p>
+
+  <!-- Detalhe único da página: torcedor do Palmeiras -->
+  <span class="badge-torcida">Torcedor do Palmeiras</span>
+
+  <!-- Easter egg: pinguim escondido, só aparece ao clicar no nome -->
+  <div class="pinguim-easter-egg" id="pinguim" aria-hidden="true">
+    <svg viewBox="0 0 100 120" width="110" height="132">
+      <ellipse cx="50" cy="65" rx="32" ry="45" fill="#111318"/>
+      <ellipse cx="50" cy="72" rx="20" ry="34" fill="#E6E8F2"/>
+      <circle cx="50" cy="28" r="22" fill="#111318"/>
+      <circle cx="42" cy="24" r="3.5" fill="#E6E8F2"/>
+      <circle cx="58" cy="24" r="3.5" fill="#E6E8F2"/>
+      <polygon points="50,30 44,38 56,38" fill="#FF9E2C"/>
+      <ellipse cx="18" cy="60" rx="8" ry="18" fill="#111318" transform="rotate(-20 18 60)"/>
+      <ellipse cx="82" cy="60" rx="8" ry="18" fill="#111318" transform="rotate(20 82 60)"/>
+      <polygon points="38,108 50,118 62,108" fill="#FF9E2C"/>
+    </svg>
+    <p>Oi, você me encontrou!</p>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===========================================================
+       SOBRE MIM
+       Texto escrito com base nas informações que o Augusto passou:
+       nome, apelido, idade, cidade, curso, o que gosta de fazer,
+       o que quer pro futuro e o detalhe do Palmeiras.
+  =========================================================== -->
+  <section class="sobre reveal" id="sobre">
+    <div class="container">
+      <h2 class="titulo-secao">Sobre mim</h2>
+      <p>
+        Meu nome é Augusto Castro, mas os amigos me chamam de gutao. Tenho 15 anos,
+        moro em Varginha e estou cursando fundamentos de TI. No meu tempo livre
+        divido a atenção entre futebol, ir pra academia e jogar, três coisas que
+        dizem bastante sobre como eu sou.
+      </p>
+      <p>
+        Ainda estou descobrindo os detalhes do caminho, mas sei que quero seguir
+        fazendo algo relacionado a computador no futuro. Uma coisa que pouca
+        gente sabe é que eu gosto de desenhar. Ah, e se você me conhecer, vai
+        descobrir rápido que eu torço pro Palmeiras.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===========================================================
+       MINHAS ENTREGAS
+       Os 5 trabalhos aparecem dentro de um "computador" desenhado
+       em CSS puro. É um carrossel: um trabalho por vez na tela,
+       trocado com as setinhas (com animação de slide).
+       Cards "Em breve" ficam apagados e sem link clicável.
+  =========================================================== -->
+  <section id="entregas">
+    <div class="container">
+      <h2 class="titulo-secao reveal reveal--direita">Minhas entregas</h2>
+
+      <div class="computador">
+        <div class="computador__monitor">
+          <span class="computador__camera" aria-hidden="true"></span>
+
+          <div class="computador__tela">
+            <div class="computador__trilha" id="trilha-entregas">
+
+              <article class="card card--em-breve">
+                <span class="card__numero">01</span>
+                <h3 class="card__titulo">Capa do Meu Álbum</h3>
+                <p class="card__data">[PREENCHER: data]</p>
+                <p class="card__aprendizado">[PREENCHER: uma linha sobre o que você aprendeu nessa entrega]</p>
+                <div class="card__rodape">
+                  <span class="selo selo--em-breve">Em breve</span>
+                </div>
+              </article>
+
+              <article class="card card--em-breve">
+                <span class="card__numero">02</span>
+                <h3 class="card__titulo">Dashboard Quem Sou Eu</h3>
+                <p class="card__data">[PREENCHER: data]</p>
+                <p class="card__aprendizado">[PREENCHER: uma linha sobre o que você aprendeu nessa entrega]</p>
+                <div class="card__rodape">
+                  <span class="selo selo--em-breve">Em breve</span>
+                </div>
+              </article>
+
+              <article class="card card--em-breve">
+                <span class="card__numero">03</span>
+                <h3 class="card__titulo">Árvore das Profissões 2.0</h3>
+                <p class="card__data">[PREENCHER: data]</p>
+                <p class="card__aprendizado">[PREENCHER: uma linha sobre o que você aprendeu nessa entrega]</p>
+                <div class="card__rodape">
+                  <span class="selo selo--em-breve">Em breve</span>
+                </div>
+              </article>
+
+              <article class="card card--em-breve">
+                <span class="card__numero">04</span>
+                <h3 class="card__titulo">Âncoras de Carreira</h3>
+                <p class="card__data">[PREENCHER: data]</p>
+                <p class="card__aprendizado">[PREENCHER: uma linha sobre o que você aprendeu nessa entrega]</p>
+                <div class="card__rodape">
+                  <span class="selo selo--em-breve">Em breve</span>
+                </div>
+              </article>
+
+              <article class="card">
+                <span class="card__numero">05</span>
+                <h3 class="card__titulo">Manifesto</h3>
+                <p class="card__data">[PREENCHER: data]</p>
+                <p class="card__aprendizado">Tem que repetir, errar, tentar de novo.</p>
+                <div class="card__rodape">
+                  <a class="botao" href="#manifesto">Ler manifesto</a>
+                  <span class="selo selo--concluida">Concluída</span>
+                </div>
+              </article>
+
+            </div>
+          </div>
+
+          <div class="computador__pescoco" aria-hidden="true"></div>
+          <div class="computador__base" aria-hidden="true"></div>
+        </div>
+
+        <div class="computador__setas">
+          <button type="button" class="seta" id="seta-anterior" aria-label="Trabalho anterior">←</button>
+          <button type="button" class="seta" id="seta-proxima" aria-label="Próximo trabalho">→</button>
+        </div>
+        <p class="computador__indicador" id="indicador-entregas">1 / 5</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================================================
+       MANIFESTO
+       Fundo na cor primária com texto invertido, e uma frase de
+       destaque grande no meio do bloco de texto.
+  =========================================================== -->
+  <section class="manifesto" id="manifesto">
+    <div class="container">
+      <h2 class="titulo-secao reveal">Manifesto</h2>
+      <div class="manifesto__texto">
+        <p>Eu treino porque eu quero, não porque alguém mandou. Bola, academia, jogo, pra mim é tudo a mesma parada: aparecer todo santo dia, mesmo nos dias que bate uma preguiça. Não sei ainda exatamente o que eu vou ser, mas sei que quero mexer com computador. E uma coisa eu já entendi: ninguém fica bom em nada só na vontade tem que repetir, errar, tentar de novo, quantas vezes precisar. É assim que funciona pra mim treinando, e é assim que eu quero levar o TI também. Uma coisa que pouca gente sabe é que eu desenho. É o único momento que minha cabeça desliga de tudo e eu só faço, sem pensar em resultado. E sim, eu sou palmeirense isso nem discuto. No fim, esse manifesto é isso: eu ainda não tenho tudo pronto, tô construindo aos poucos, e tá tudo certo assim.</p>
+
+        <p class="manifesto__destaque">Tem que repetir, errar, tentar de novo.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===========================================================
+     RODAPÉ — contato e link do GitHub
+=========================================================== -->
+<footer>
+  <p>
+    Contato: <a href="mailto:augustosouzacastro2011@gmail.com">augustosouzacastro2011@gmail.com</a>
+  </p>
+  <p>
+    GitHub: <a href="https://github.com/elevateaugusto" target="_blank" rel="noopener">github.com/elevateaugusto</a>
+  </p>
+</footer>
+
+<!-- Botão flutuante de voltar ao topo -->
+<a href="#topo" class="voltar-topo" id="btn-topo" aria-label="Voltar ao topo">↑</a>
+
+<script>
+  // =========================================================
+  // 1) LUZ QUE SEGUE O MOUSE/TOQUE NO HERO
+  //    Atualiza as variáveis --luz-x e --luz-y usadas no CSS.
+  // =========================================================
+  const hero = document.getElementById('topo');
+  const luz = document.getElementById('luz-hero');
+
+  function moverLuz(x, y){
+    const rect = hero.getBoundingClientRect();
+    luz.style.setProperty('--luz-x', (x - rect.left) + 'px');
+    luz.style.setProperty('--luz-y', (y - rect.top) + 'px');
+  }
+
+  hero.addEventListener('mousemove', (e) => moverLuz(e.clientX, e.clientY));
+  hero.addEventListener('touchmove', (e) => {
+    const toque = e.touches[0];
+    if (toque) moverLuz(toque.clientX, toque.clientY);
+  }, { passive: true });
+
+  // Easter egg: clicar no nome mostra/esconde o pinguim escondido
+  const nomeClicavel = document.getElementById('nome-clicavel');
+  const pinguim = document.getElementById('pinguim');
+  nomeClicavel.addEventListener('click', () => {
+    pinguim.classList.toggle('visivel');
+  });
+
+  // =========================================================
+  // 2) CARROSSEL DE ENTREGAS DENTRO DO COMPUTADOR
+  //    As setinhas trocam o trabalho mostrado na "tela",
+  //    deslizando a trilha de cards com transform: translateX.
+  // =========================================================
+  const reduzMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const trilhaEntregas = document.getElementById('trilha-entregas');
+  const cardsEntregas = trilhaEntregas.children;
+  const botaoAnterior = document.getElementById('seta-anterior');
+  const botaoProxima = document.getElementById('seta-proxima');
+  const indicador = document.getElementById('indicador-entregas');
+
+  let indiceAtual = 0;
+
+  function atualizarCarrossel(){
+    trilhaEntregas.style.transform = `translateX(-${indiceAtual * 100}%)`;
+    indicador.textContent = `${indiceAtual + 1} / ${cardsEntregas.length}`;
+    botaoAnterior.disabled = indiceAtual === 0;
+    botaoProxima.disabled = indiceAtual === cardsEntregas.length - 1;
+  }
+
+  botaoAnterior.addEventListener('click', () => {
+    if (indiceAtual > 0){
+      indiceAtual -= 1;
+      atualizarCarrossel();
+    }
+  });
+
+  botaoProxima.addEventListener('click', () => {
+    if (indiceAtual < cardsEntregas.length - 1){
+      indiceAtual += 1;
+      atualizarCarrossel();
+    }
+  });
+
+  atualizarCarrossel();
+
+  // =========================================================
+  // 3) ANIMAÇÃO DE ENTRADA AO ROLAR A PÁGINA
+  //    Usa IntersectionObserver pra revelar as seções.
+  // =========================================================
+  const elementosRevelaveis = document.querySelectorAll('.reveal');
+
+  if ('IntersectionObserver' in window && !reduzMovimento){
+    const observador = new IntersectionObserver((entradas) => {
+      entradas.forEach((entrada) => {
+        if (entrada.isIntersecting){
+          entrada.target.classList.add('visivel');
+          observador.unobserve(entrada.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    elementosRevelaveis.forEach((el) => observador.observe(el));
+  } else {
+    // Sem suporte ou com "reduzir movimento" ativado: mostra tudo direto
+    elementosRevelaveis.forEach((el) => el.classList.add('visivel'));
+  }
+
+  // =========================================================
+  // 4) MOSTRAR/ESCONDER O BOTÃO "VOLTAR AO TOPO"
+  // =========================================================
+  const botaoTopo = document.getElementById('btn-topo');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 400){
+      botaoTopo.classList.add('visivel');
+    } else {
+      botaoTopo.classList.remove('visivel');
+    }
+  });
+</script>
+
+</body>
+</html>
