@@ -5,36 +5,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Augusto Castro (gutao) - Portfólio</title>
 
-<!-- Fontes do Google Fonts: JetBrains Mono pros títulos, IBM Plex Sans pro texto -->
+<!-- Fontes do Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
-  /* ===========================================================
-     VARIÁVEIS DE COR — paleta "Neon Noturno", exatamente como escolhida.
-     Tudo declarado aqui pra ficar fácil de achar e trocar depois.
-  ============================================================ */
   :root{
     --bg: #0D0F1A;
-    --texto: #E6E8F2;
+    --texto: #FFFFFF;
     --primaria: #00E5FF;
     --secundaria: #7C3AED;
     --destaque: #FF2E88;
 
     --fonte-titulo: 'JetBrains Mono', monospace;
     --fonte-texto: 'IBM Plex Sans', sans-serif;
-
-    --duracao-anim: 0.6s; /* dentro da faixa 0.3s–0.8s pedida */
+    --duracao-anim: 0.6s;
   }
 
-  /* Reduz movimento pra quem pediu isso no sistema */
   @media (prefers-reduced-motion: reduce){
     :root{ --duracao-anim: 0s; }
   }
 
   *{ box-sizing: border-box; }
-
   html{ scroll-behavior: smooth; }
 
   body{
@@ -49,13 +42,12 @@
   h1, h2, h3, .fonte-titulo{
     font-family: var(--fonte-titulo);
     margin: 0;
+    color: var(--texto);
     letter-spacing: -0.01em;
   }
 
   a{ color: var(--primaria); }
-
   img{ max-width: 100%; display: block; }
-
   section{ padding: 5rem 1.5rem; }
 
   .container{
@@ -63,10 +55,7 @@
     margin: 0 auto;
   }
 
-  /* ===========================================================
-     HERO — topo centralizado com efeito de "luz" que segue o
-     mouse/toque, feito com um gradiente radial posicionado via JS.
-  ============================================================ */
+  /* HERO */
   .hero{
     min-height: 100vh;
     display: flex;
@@ -76,7 +65,7 @@
     text-align: center;
     position: relative;
     padding: 3rem 1.5rem;
-    isolation: isolate; /* mantém a luz atrás do conteúdo */
+    isolation: isolate;
   }
 
   .hero__luz{
@@ -94,7 +83,7 @@
   .avatar{
     width: 140px;
     height: 140px;
-    border-radius: 50%; /* formato círculo, como escolhido */
+    border-radius: 50%;
     background: linear-gradient(160deg, var(--secundaria), var(--primaria));
     display: flex;
     align-items: center;
@@ -136,7 +125,6 @@
     color: var(--secundaria);
   }
 
-  /* Easter egg do pinguim: escondido até clicar no nome */
   .pinguim-easter-egg{
     margin-top: 1.5rem;
     display: flex;
@@ -159,34 +147,30 @@
     overflow: visible;
   }
 
-  /* ===========================================================
-     TÍTULOS DE SEÇÃO — sem rótulo/eyebrow extra, direto ao ponto
-  ============================================================ */
   .titulo-secao{
     font-size: clamp(1.6rem, 4vw, 2.2rem);
     margin-bottom: 2rem;
+    color: var(--primaria);
   }
 
-  /* ===========================================================
-     SOBRE MIM
-  ============================================================ */
+  /* SOBRE */
   .sobre p{
     max-width: 65ch;
     font-size: 1.05rem;
+    color: var(--texto);
   }
   .sobre p + p{ margin-top: 1.2rem; }
 
-  /* ===========================================================
-     MUNDO SENAI 2026 — Nova seção integrada ao tema Neon Noturno
-  ============================================================ */
+  /* MUNDO SENAI 2026 */
   .mundo-senai__card{
-    background: rgba(230, 232, 242, 0.04);
-    border: 1px solid rgba(0, 229, 255, 0.25);
+    background: #141726;
+    border: 2px solid var(--primaria);
     border-radius: 12px;
     padding: 2rem;
     display: grid;
     grid-template-columns: 1fr;
     gap: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 229, 255, 0.1);
   }
 
   @media (min-width: 768px){
@@ -199,19 +183,13 @@
   .mundo-senai__midia{
     border-radius: 8px;
     overflow: hidden;
-    border: 1px solid rgba(230, 232, 242, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     background: #1a1d2b;
   }
 
-  .mundo-senai__midia img{
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-  }
-
   .mundo-senai__legenda{
-    font-size: 0.95rem;
-    color: rgba(230, 232, 242, 0.85);
+    font-size: 1rem;
+    color: var(--texto);
     margin-bottom: 1.5rem;
   }
 
@@ -222,7 +200,7 @@
     align-items: center;
   }
 
-  /* Dialog / Modal customizado com o CSS Neon Noturno */
+  /* DIALOG / MODAL */
   .dialog-senai{
     background: #141726;
     color: var(--texto);
@@ -230,7 +208,7 @@
     border-radius: 10px;
     padding: 2rem;
     max-width: 500px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.9);
   }
 
   .dialog-senai::backdrop{
@@ -245,44 +223,528 @@
   }
 
   .dialog-senai p{
-    font-size: 0.98rem;
+    font-size: 1rem;
     margin-bottom: 1.5rem;
-    line-height: 1.5;
+    color: var(--texto);
   }
 
   .btn-dialog-fechar{
     background: var(--destaque);
-    color: var(--bg);
+    color: #FFFFFF;
     border: none;
     font-family: var(--fonte-titulo);
     font-weight: 700;
     padding: 0.6rem 1.2rem;
     cursor: pointer;
     box-shadow: 3px 3px 0 var(--secundaria);
-    transition: transform 0.2s ease;
   }
 
-  .btn-dialog-fechar:hover{
-    transform: translate(-2px, -2px);
-  }
-
-  /* ===========================================================
-     ENTREGAS — os cards ficam "dentro" de um computador desenhado
-     em CSS. É um carrossel: só um trabalho aparece por vez na
-     tela, e as setas trocam o slide com animação.
-  ============================================================ */
+  /* COMPUTADOR / CARROSSEL */
   .computador{
     max-width: 640px;
     margin: 0 auto;
   }
 
-  /* Moldura do monitor */
   .computador__monitor{
     background: #1a1d2b;
-    border: 2px solid rgba(230, 232, 242, 0.15);
+    border: 2px solid rgba(230, 232, 242, 0.3);
     border-radius: 14px;
     padding: 1rem;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
   }
 
-  /* "Câmera" do monitor, só um
+  .computador__camera{
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(230, 232, 242, 0.5);
+    margin: 0 auto 0.8rem;
+  }
+
+  .computador__tela{
+    position: relative;
+    background: var(--bg);
+    border: 1px solid var(--primaria);
+    border-radius: 6px;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+  }
+
+  .computador__trilha{
+    display: flex;
+    height: 100%;
+    transition: transform var(--duracao-anim) ease;
+  }
+
+  .computador__pescoco{
+    width: 60px;
+    height: 22px;
+    margin: 0 auto;
+    background: #1a1d2b;
+    border-left: 2px solid rgba(230, 232, 242, 0.3);
+    border-right: 2px solid rgba(230, 232, 242, 0.3);
+  }
+
+  .computador__base{
+    width: 160px;
+    height: 12px;
+    margin: 0 auto;
+    background: #1a1d2b;
+    border-radius: 6px;
+    border: 2px solid rgba(230, 232, 242, 0.3);
+  }
+
+  .computador__setas{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .seta{
+    width: 2.75rem;
+    height: 2.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--texto);
+    color: var(--texto);
+    font-family: var(--fonte-titulo);
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 var(--destaque);
+  }
+  .seta:disabled{
+    opacity: 0.3;
+    cursor: default;
+    box-shadow: none;
+  }
+
+  .computador__indicador{
+    text-align: center;
+    margin-top: 0.8rem;
+    font-family: var(--fonte-titulo);
+    font-size: 0.85rem;
+    color: var(--texto);
+  }
+
+  .card{
+    min-width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    background: rgba(230, 232, 242, 0.08);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .card--em-breve{
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .card__numero{
+    font-family: var(--fonte-titulo);
+    color: var(--primaria);
+    font-size: 0.9rem;
+  }
+
+  .card__titulo{
+    font-family: var(--fonte-titulo);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--texto);
+  }
+
+  .card__data{ font-size: 0.85rem; color: rgba(255,255,255,0.7); }
+  .card__aprendizado{ font-size: 0.95rem; flex-grow: 1; color: var(--texto); }
+
+  .card__rodape{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .selo{
+    font-family: var(--fonte-titulo);
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid currentColor;
+  }
+  .selo--concluida{ color: var(--primaria); }
+  .selo--em-breve{ color: rgba(255,255,255,0.5); }
+
+  /* BOTÕES */
+  .botao{
+    display: inline-block;
+    font-family: var(--fonte-titulo);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--bg);
+    background: var(--primaria);
+    text-decoration: none;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 var(--destaque);
+  }
+  .botao--secundario{
+    background: transparent;
+    color: var(--texto);
+    border: 1px solid var(--texto);
+    box-shadow: 4px 4px 0 var(--secundaria);
+  }
+
+  /* MANIFESTO */
+  .manifesto{
+    background: var(--primaria);
+    color: var(--bg);
+  }
+  .manifesto .titulo-secao{ color: var(--bg); }
+  .manifesto p{ color: var(--bg); font-weight: 500; }
+
+  .manifesto__texto{
+    max-width: 65ch;
+    font-size: 1.02rem;
+  }
+  .manifesto__texto p + p{ margin-top: 1.1rem; }
+
+  .manifesto__destaque{
+    font-family: var(--fonte-titulo);
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 800;
+    max-width: 24ch;
+    margin: 2.5rem auto;
+    text-align: center;
+    line-height: 1.3;
+    color: var(--bg);
+  }
+
+  footer{
+    padding: 3rem 1.5rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--texto);
+  }
+  footer a{ color: var(--primaria); }
+
+  .voltar-topo{
+    position: fixed;
+    right: 1.2rem;
+    bottom: 1.2rem;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--destaque);
+    color: #FFFFFF;
+    text-decoration: none;
+    font-family: var(--fonte-titulo);
+    box-shadow: 3px 3px 0 var(--secundaria);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--duracao-anim) ease;
+  }
+  .voltar-topo.visivel{
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .reveal{
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity var(--duracao-anim) ease, transform var(--duracao-anim) ease;
+  }
+  .reveal--direita{ transform: translateX(40px); }
+  .reveal.visivel{
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ opacity: 1; transform: none; transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero" id="topo">
+  <div class="hero__luz" id="luz-hero"></div>
+  <div class="avatar" aria-hidden="true">AC</div>
+  <h1 id="nome-clicavel" style="cursor: pointer;" aria-label="Clique para um segredo">
+    Augusto Castro
+    <span class="apelido">conhecido como gutao</span>
+  </h1>
+  <p class="frase">Constância é o meu jogo, dentro e fora da tela.</p>
+  <span class="badge-torcida">Torcedor do Palmeiras</span>
+
+  <div class="pinguim-easter-egg" id="pinguim" aria-hidden="true">
+    <svg viewBox="0 0 100 120" width="110" height="132">
+      <ellipse cx="50" cy="65" rx="32" ry="45" fill="#111318"/>
+      <ellipse cx="50" cy="72" rx="20" ry="34" fill="#E6E8F2"/>
+      <circle cx="50" cy="28" r="22" fill="#111318"/>
+      <circle cx="42" cy="24" r="3.5" fill="#E6E8F2"/>
+      <circle cx="58" cy="24" r="3.5" fill="#E6E8F2"/>
+      <polygon points="50,30 44,38 56,38" fill="#FF9E2C"/>
+      <ellipse cx="18" cy="60" rx="8" ry="18" fill="#111318" transform="rotate(-20 18 60)"/>
+      <ellipse cx="82" cy="60" rx="8" ry="18" fill="#111318" transform="rotate(20 82 60)"/>
+      <polygon points="38,108 50,118 62,108" fill="#FF9E2C"/>
+    </svg>
+    <p>Oi, você me encontrou!</p>
+  </div>
+</header>
+
+<main>
+
+  <!-- SOBRE MIM -->
+  <section class="sobre reveal" id="sobre">
+    <div class="container">
+      <h2 class="titulo-secao">Sobre mim</h2>
+      <p>
+        Meu nome é Augusto Castro, mas os amigos me chamam de gutao. Tenho 15 anos,
+        moro em Varginha e estou cursando fundamentos de TI. No meu tempo livre
+        divido a atenção entre futebol, ir pra academia e jogar, três coisas que
+        dizem bastante sobre como eu sou.
+      </p>
+      <p>
+        Ainda estou descobrindo os detalhes do caminho, mas sei que quero seguir
+        fazendo algo relacionado a computador no futuro. Uma coisa que pouca
+        gente sabe é que eu gosto de desenhar. Ah, e se você me conhecer, vai
+        descobrir rápido que eu torço pro Palmeiras.
+      </p>
+    </div>
+  </section>
+
+  <!-- MUNDO SENAI 2026 -->
+  <section class="mundo-senai reveal" id="mundo-senai">
+    <div class="container">
+      <h2 class="titulo-secao">Mundo SENAI 2026</h2>
+      
+      <div class="mundo-senai__card">
+        <div class="mundo-senai__midia">
+          <img src="https://via.placeholder.com/600x400/1a1d2b/00E5FF?text=Mundo+SENAI+2026" alt="Apresentação no Mundo SENAI 2026">
+        </div>
+
+        <div class="mundo-senai__conteudo">
+          <p class="mundo-senai__legenda">
+            Registro e documentação da minha apresentação no evento Mundo SENAI 2026, demonstrando na prática as aplicações e conceitos aprendidos no curso técnico de Informática para Internet para a comunidade.
+          </p>
+
+          <div class="mundo-senai__acoes">
+            <a href="https://github.com/elevateaugusto/07-mundo-senai" target="_blank" rel="noopener" class="botao">
+              Ver no GitHub
+            </a>
+            
+            <button type="button" class="botao botao--secundario" onclick="document.getElementById('dialog-mundo-senai').showModal()">
+              O que é o MUNDO SENAI?
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIALOG INFORMATIVO DO MUNDO SENAI -->
+  <dialog id="dialog-mundo-senai" class="dialog-senai">
+    <h3>O que é o MUNDO SENAI?</h3>
+    <p>
+      No Mundo SENAI, a escola abre as portas e os estudantes apresentam o que aprenderam para visitantes[cite: 2]. Apresentar para quem não conhece o assunto é uma das experiências mais próximas do mundo do trabalho[cite: 2].
+    </p>
+    <form method="dialog" style="text-align: right;">
+      <button class="btn-dialog-fechar">OK, entendi!</button>
+    </form>
+  </dialog>
+
+  <!-- ENTREGAS -->
+  <section id="entregas">
+    <div class="container">
+      <h2 class="titulo-secao reveal reveal--direita">Minhas entregas</h2>
+
+      <div class="computador">
+        <div class="computador__monitor">
+          <span class="computador__camera" aria-hidden="true"></span>
+
+          <div class="computador__tela">
+            <div class="computador__trilha" id="trilha-entregas">
+
+              <article class="card card--em-breve">
+                <span class="card__numero">01</span>
+                <h3 class="card__titulo">Capa do Meu Álbum</h3>
+                <p class="card__data">[PREENCHER: data]</p>
+                <p class="card__aprendizado">[PREENCHER: uma linha sobre o que você aprendeu nessa entrega]</p>
+                <div class="card__rodape">
+                  <span class="selo selo--em-breve">Em breve</span>
+                </div>
+              </article>
+
+              <article class="card card--em-breve">
+                <span class="card__numero">02</span>
+                <h3 class="card__titulo">Dashboard Quem Sou Eu</h3>
+                <p class="card__data">[PREENCHER: data]</p>
+                <p class="card__aprendizado">[PREENCHER: uma linha sobre o que você aprendeu nessa entrega]</p>
+                <div class="card__rodape">
+                  <span class="selo selo--em-breve">Em breve</span>
+                </div>
+              </article>
+
+              <article class="card card--em-breve">
+                <span class="card__numero">03</span>
+                <h3 class="card__titulo">Árvore das Profissões 2.0</h3>
+                <p class="card__data">[PREENCHER: data]</p>
+                <p class="card__aprendizado">[PREENCHER: uma linha sobre o que você aprendeu nessa entrega]</p>
+                <div class="card__rodape">
+                  <span class="selo selo--em-breve">Em breve</span>
+                </div>
+              </article>
+
+              <article class="card card--em-breve">
+                <span class="card__numero">04</span>
+                <h3 class="card__titulo">Âncoras de Carreira</h3>
+                <p class="card__data">[PREENCHER: data]</p>
+                <p class="card__aprendizado">[PREENCHER: uma linha sobre o que você aprendeu nessa entrega]</p>
+                <div class="card__rodape">
+                  <span class="selo selo--em-breve">Em breve</span>
+                </div>
+              </article>
+
+              <article class="card">
+                <span class="card__numero">05</span>
+                <h3 class="card__titulo">Manifesto</h3>
+                <p class="card__data">[PREENCHER: data]</p>
+                <p class="card__aprendizado">Tem que repetir, errar, tentar de novo.</p>
+                <div class="card__rodape">
+                  <a class="botao" href="#manifesto">Ler manifesto</a>
+                  <span class="selo selo--concluida">Concluída</span>
+                </div>
+              </article>
+
+            </div>
+          </div>
+
+          <div class="computador__pescoco" aria-hidden="true"></div>
+          <div class="computador__base" aria-hidden="true"></div>
+        </div>
+
+        <div class="computador__setas">
+          <button type="button" class="seta" id="seta-anterior" aria-label="Trabalho anterior">←</button>
+          <button type="button" class="seta" id="seta-proxima" aria-label="Próximo trabalho">→</button>
+        </div>
+        <p class="computador__indicador" id="indicador-entregas">1 / 5</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MANIFESTO -->
+  <section class="manifesto" id="manifesto">
+    <div class="container">
+      <h2 class="titulo-secao reveal">Manifesto</h2>
+      <div class="manifesto__texto">
+        <p>Eu treino porque eu quero, não porque alguém mandou. Bola, academia, jogo, pra mim é tudo a mesma parada: aparecer todo santo dia, mesmo nos dias que bate uma preguiça. Não sei ainda exatamente o que eu vou ser, mas sei que quero mexer com computador. E uma coisa eu já entendi: ninguém fica bom em nada só na vontade tem que repetir, errar, tentar de novo, quantas vezes precisar. É assim que funciona pra mim treinando, e é assim que eu quero levar o TI também. Uma coisa que pouca gente sabe é que eu desenho. É o único momento que minha cabeça desliga de tudo e eu só faço, sem pensar em resultado. E sim, eu sou palmeirense isso nem discuto. No fim, esse manifesto é isso: eu ainda não tenho tudo pronto, tô construindo aos poucos, e tá tudo certo assim.</p>
+
+        <p class="manifesto__destaque">Tem que repetir, errar, tentar de novo.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>
+    Contato: <a href="mailto:augustosouzacastro2011@gmail.com">augustosouzacastro2011@gmail.com</a>
+  </p>
+  <p>
+    GitHub: <a href="https://github.com/elevateaugusto" target="_blank" rel="noopener">github.com/elevateaugusto</a>
+  </p>
+</footer>
+
+<a href="#topo" class="voltar-topo" id="btn-topo" aria-label="Voltar ao topo">↑</a>
+
+<script>
+  const hero = document.getElementById('topo');
+  const luz = document.getElementById('luz-hero');
+
+  function moverLuz(x, y){
+    const rect = hero.getBoundingClientRect();
+    luz.style.setProperty('--luz-x', (x - rect.left) + 'px');
+    luz.style.setProperty('--luz-y', (y - rect.top) + 'px');
+  }
+
+  hero.addEventListener('mousemove', (e) => moverLuz(e.clientX, e.clientY));
+  hero.addEventListener('touchmove', (e) => {
+    const toque = e.touches[0];
+    if (toque) moverLuz(toque.clientX, toque.clientY);
+  }, { passive: true });
+
+  const nomeClicavel = document.getElementById('nome-clicavel');
+  const pinguim = document.getElementById('pinguim');
+  nomeClicavel.addEventListener('click', () => {
+    pinguim.classList.toggle('visivel');
+  });
+
+  const reduzMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const trilhaEntregas = document.getElementById('trilha-entregas');
+  const cardsEntregas = trilhaEntregas.children;
+  const botaoAnterior = document.getElementById('seta-anterior');
+  const botaoProxima = document.getElementById('seta-proxima');
+  const indicador = document.getElementById('indicador-entregas');
+
+  let indiceAtual = 0;
+
+  function atualizarCarrossel(){
+    trilhaEntregas.style.transform = `translateX(-${indiceAtual * 100}%)`;
+    indicador.textContent = `${indiceAtual + 1} / ${cardsEntregas.length}`;
+    botaoAnterior.disabled = indiceAtual === 0;
+    botaoProxima.disabled = indiceAtual === cardsEntregas.length - 1;
+  }
+
+  botaoAnterior.addEventListener('click', () => {
+    if (indiceAtual > 0){
+      indiceAtual -= 1;
+      atualizarCarrossel();
+    }
+  });
+
+  botaoProxima.addEventListener('click', () => {
+    if (indiceAtual < cardsEntregas.length - 1){
+      indiceAtual += 1;
+      atualizarCarrossel();
+    }
+  });
+
+  atualizarCarrossel();
+
+  const elementosRevelaveis = document.querySelectorAll('.reveal');
+
+  if ('IntersectionObserver' in window && !reduzMovimento){
+    const observador = new IntersectionObserver((entradas) => {
+      entradas.forEach((entrada) => {
+        if (entrada.isIntersecting){
+          entrada.target.classList.add('visivel');
+          observador.unobserve(entrada.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    elementosRevelaveis.forEach((el) => observador.observe(el));
+  } else {
+    elementosRevelaveis.forEach((el) => el.classList.add('visivel'));
+  }
+
+  const botaoTopo = document.getElementById('btn-topo');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 400){
+      botaoTopo.classList.add('visivel');
+    } else {
+      botaoTopo.classList.remove('visivel');
+    }
+  });
+</script>
+
+</body>
+</html>
